@@ -6,7 +6,7 @@
         varying vec4 fColor;
 
         uniform mat4 modelViewMatrix;
-        
+
         void main(void){
             gl_Position = modelViewMatrix * vPosition;
             fColor = vColor;

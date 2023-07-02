@@ -138,20 +138,11 @@ onload = () => {
     else
     if(event.key === "I"){
 
-        eye = [0.1, 0.1, 0.1];
+        eye = [1, 1, 1];
 
-        at = [1, 1, 1];
+        at = [0, 0, 0];
 
         up = [0, 1, 0];
-
-
-    left = -0.5;
-
-    right = 0.5;
-    
-    bottom = -0.5;
-
-    ytop = 0.5;
 
     }
     else
@@ -159,22 +150,22 @@ onload = () => {
 
         left += 0.1;
 
-        right += 0.1;
+        right -= 0.1;
 
         bottom += 0.1;
 
-        ytop += 0.1;
+        ytop -= 0.1;
     }
     else
     if(event.key ==="S"){
 
         left -= 0.1;
 
-        right -= 0.1;
+        right += 0.1;
 
         bottom -= 0.1;
 
-        ytop -= 0.1;
+        ytop += 0.1;
     }
     };
 
@@ -204,10 +195,11 @@ function render() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     mvm = lookAt(eye, at, up);
-    projection = ortho(left, right, bottom, ytop, near, far);
+    projectionMatrix = ortho(left, right, bottom, ytop, near, far);
+    multipMatrix = mult(projectionMatrix, mvm);
     gl.uniformMatrix4fv(modelViewMatrix, false,
-    flatten(mvm));
-    gl.uniformMatrix4fv(projectionMatrix, false, flatten(mvm) );
+    flatten(multipMatrix));
+
     gl.drawElements(gl.TRIANGLES, vertexCount, gl.UNSIGNED_BYTE, 0);
 
     requestAnimationFrame(render);
