@@ -10,6 +10,16 @@ let fovy = 70;
 let aspect = 1;
 let near = 0.1;
 let far = 10;
+let type_project;
+let vBuffer2;
+let vPosition;
+let Buffer;
+let left = -1;
+let right = 1;
+let bottom = -1;
+let ytop = 1;
+let vBuffer;
+
 onload = () => {
     let canvas = document.getElementById("webgl-canvas");
     
@@ -30,13 +40,39 @@ onload = () => {
 
     let vertices = [
         -0.5, -0.5, 0.5,
+
         -0.5, 0.5, 0.5,
+
         0.5, 0.5, 0.5,
+
         0.5, -0.5, 0.5,
+
         -0.5, -0.5, -0.5,
+
         -0.5, 0.5, -0.5,
+
         0.5, 0.5, -0.5,
+        
         0.5, -0.5, -0.5,
+    ];
+
+    let vertices2 = [
+
+        3, -1, -1,
+
+        3, 1, -1,
+
+        5, 1, -1,
+
+        5, -1, -1,
+
+        3, -1, -3,
+
+        3, 1, -3,
+
+        5, 1, -3,
+
+        5, -1, -3,
     ];
 
     let indices = [
@@ -69,13 +105,19 @@ onload = () => {
    // vertices = scale(0.5, vertices); 
 
     let vBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+
+    let vBuffer2 = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vBuffer2);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices2), gl.STATIC_DRAW);
 
     let vPosition = gl.getAttribLocation(program, 'vPosition');
     gl.vertexAttribPointer(vPosition,3,gl.FLOAT,false,0,0);
     gl.enableVertexAttribArray(vPosition);
-
+    
+    
     let iBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, iBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint8Array(indices), gl.STATIC_DRAW);
@@ -154,6 +196,18 @@ onload = () => {
 
         fovy +=1;
     }
+    else
+    if(event.key === 'O' || event.key === 'o'){
+     
+        
+        type_project ==='ortho';
+    }
+    else 
+    if(event.key === 'P' || event.key ==='p'){
+
+        type_project ==='perspec';
+    }
+
     };
 
    
@@ -180,15 +234,42 @@ function rotateCamPositi(vector, angle){
 }
 function render() { 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    
+    if(type_project ==='ortho'){
 
+        projectionMatrix = ortho(left, right, bottom, ytop, near, far);
+    }
+
+    else
+    if(type_project === 'perspec')
+    {
+        projectionMatrix = perspective(fovy, aspect, near, far);
+    }
+
+    
     mvm = lookAt(eye, at, up);
-    projectionMatrix = perspective(fovy, aspect, near, far);
+    //projectionMatrix = perspective(fovy, aspect, near, far);
+   
     multipMatrix = mult(projectionMatrix, mvm);
     gl.uniformMatrix4fv(modelViewMatrix, false,
     flatten(multipMatrix));
+    
+   // for first cube
 
+   gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+   gl.vertexAttribPointer(vPosition, 3, gl.FLOAT, false, 0, 0);
+   gl.drawElements(gl.TRIANGLES, vertexCount, gl.UNSIGNED_BYTE, 0);
+
+   
+    //for second cube
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer2);
+    gl.vertexAttribPointer(vPosition, 3, gl.FLOAT, false, 0, 0);
     gl.drawElements(gl.TRIANGLES, vertexCount, gl.UNSIGNED_BYTE, 0);
+
+   
 
     requestAnimationFrame(render);
 }
+
 

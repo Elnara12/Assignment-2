@@ -4,7 +4,7 @@
 - Summer 2023
 - Assignment 2
 - **Deadline:** 30 Jun 23:00
-- **Student Name Surname ID:** NEEDS TO BE UPDATED
+- **Student Name Surname ID:** Elnara Mammadli
 
 ---
 

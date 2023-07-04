@@ -93,7 +93,7 @@ onload = () => {
     modelViewMatrix = gl.getUniformLocation(program, 'modelViewMatrix');
     projectionMatrix = gl.getUniformLocation(program, "projectionMatrix");
     document.onkeydown = (event) => {
-    if(event.key === 'T'){
+    if(event.key === 'T' || event.key === 't'){
 
         eye = [0, 1,0];
 
@@ -102,7 +102,7 @@ onload = () => {
         up = [1, 0, 0];
     }
     else 
-    if(event.key === 'L'){
+    if(event.key === 'L' || event.key === 'l'){
 
         eye = [-0.1, 0, 0];
 
@@ -112,7 +112,7 @@ onload = () => {
     }
 
     else 
-    if(event.key === 'F'){
+    if(event.key === 'F' || event.key === 'f'){
 
         eye = [0, 0, 0.1];
 
@@ -122,21 +122,21 @@ onload = () => {
     }
     
     else
-    if(event.key === 'D'){
+    if(event.key === 'D' || event.key === 'd'){
 
         eye = rotateCamPositi(eye, theta);
 
         up = rotateCamPositi(up, theta);
     }
     else 
-    if(event.key === 'A'){
+    if(event.key === 'A' || event.key === 'a'){
 
         eye = rotateCamPositi(eye, -theta);
 
         up = rotateCamPositi(up, -theta);
     }
     else
-    if(event.key === "I"){
+    if(event.key === 'I' || event.key === 'i'){
 
         eye = [1, 1, 1];
 
@@ -146,7 +146,7 @@ onload = () => {
 
     }
     else
-    if(event.key === "W"){
+    if(event.key === 'W' || event.key === 'w'){
 
         left += 0.1;
 
@@ -157,7 +157,7 @@ onload = () => {
         ytop -= 0.1;
     }
     else
-    if(event.key ==="S"){
+    if(event.key === 'S' || event.key === 's'){
 
         left -= 0.1;
 
